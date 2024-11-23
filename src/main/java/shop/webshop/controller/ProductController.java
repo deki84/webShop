@@ -1,6 +1,7 @@
 package shop.webshop.controller;
 
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import shop.webshop.model.Product;
 import shop.webshop.repository.ProductRepository;
@@ -30,7 +31,7 @@ public class ProductController {
 
     // neues Produkt erstellen
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@Valid @RequestBody Product product) {
         return productService.createProduct(product);
 
 
