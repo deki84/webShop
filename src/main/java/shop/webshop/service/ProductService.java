@@ -47,4 +47,7 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id " + id));
     }
+    public Iterable<Product> searchProducts(String name) {
+        return productRepository.findByNameContainingIgnoreCase(name);
+    }
 }

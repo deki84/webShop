@@ -44,4 +44,10 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
+    // Produkte nach Namen suchen
+    @GetMapping("/search")
+    public Iterable<Product> searchProducts(@RequestParam String name) {
+        return productService.searchProducts(name);
+    }
+
 }
