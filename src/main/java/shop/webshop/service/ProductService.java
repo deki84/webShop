@@ -1,6 +1,7 @@
 package shop.webshop.service;
 
 import org.springframework.stereotype.Service;
+import shop.webshop.exception.ProductNotFoundException;
 import shop.webshop.model.Product;
 import shop.webshop.repository.ProductRepository;
 
@@ -30,5 +31,11 @@ public class ProductService {
             }).orElseThrow(() -> new RuntimeException("Product not found with id " + id ));
 
 
+    }
+    public void deleteProduct(Long id) {
+            if(!productRepository.existsById(id)) {
+              throw new ProductNotFoundException("Product not found with id " + id);
+        }
+        productRepository.deleteById(id);
     }
 }
