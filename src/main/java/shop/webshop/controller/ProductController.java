@@ -10,7 +10,7 @@ import shop.webshop.service.ProductService;
 public class ProductController {
 
     private final ProductService productService;
-
+    //Konstruktor-Injektion für die Dependency ProductService
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
