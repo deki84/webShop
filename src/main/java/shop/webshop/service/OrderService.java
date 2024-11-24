@@ -4,13 +4,16 @@ import org.springframework.stereotype.Service;
 import shop.webshop.model.Order;
 import shop.webshop.repository.OrderRepository;
 
+import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
 
+    // Konstruktor für Dependency Injection
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -54,7 +57,7 @@ public class OrderService {
     }
 
     // Bestellungen eines bestimmten Benutzers abrufen
-    public Iterable<Order> getOrdersByUserId(Long userId) {
+    public List<Order> getOrdersByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
 

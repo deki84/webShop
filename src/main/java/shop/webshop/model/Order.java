@@ -1,29 +1,44 @@
 package shop.webshop.model;
 
 import jakarta.persistence.*;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
-
 import java.util.List;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(nullable = false)
     private String status;
 
-    @OneToMany
-    private List<AbstractReadWriteAccess.Item> items;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> items;
 
-    // Getter und Setter
+    // Standardkonstruktor (erforderlich für JPA)
+    public Order() {
+    }
+
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getStatus() {
@@ -34,11 +49,11 @@ public class Order {
         this.status = status;
     }
 
-    public List<AbstractReadWriteAccess.Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<AbstractReadWriteAccess.Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 }

@@ -1,60 +1,70 @@
 package shop.webshop.controller;
 
-import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.webshop.model.Order;
 import shop.webshop.service.OrderService;
 
+import java.util.List;
+
+
 @RestController
-@RequestMapping("/api/orders") // Basis-URL für Bestellungen
+@RequestMapping("/api/orders")
 public class OrderController {
 
     private final OrderService orderService;
 
-    // Konstruktor-Injection für den Service
+    // Konstruktor für Dependency Injection
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
-    // Bestellung erstellen**
+    // Bestellung erstellen
     @PostMapping
-    public Order createOrder(@Valid @RequestBody Order order) {
-        return orderService.createOrder(order);
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        Order createdOrder = orderService.createOrder(order);
+        return ResponseEntity.ok(createdOrder);
     }
 
-    // Bestellung aktualisieren (z. B. Status oder Artikel ändern)**
-    @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable Long id, @Valid @RequestBody Order updatedOrder) {
-        return orderService.updateOrder(id, updatedOrder);
-    }
-
-    // Alle Bestellungen abrufen**
+    // Alle Bestellungen abrufen
     @GetMapping
-    public Iterable<Order> getAllOrders() {
-        return orderService.getAllOrders();
+    public ResponseEntity<List<Order>> getAllOrders() {
+        List<Order> orders = (List<Order>) orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
     }
 
-    // Bestellung nach ID abrufen**
+    // Bestellung nach ID abrufen
     @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        Order order = orderService.getOrderById(id);
+        return ResponseEntity.ok(order);
     }
 
-    // Bestellung löschen**
-    @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-    }
-
-    // Bestellungen eines bestimmten Benutzers abrufen**
+    // Bestellungen eines bestimmten Benutzers abrufen
     @GetMapping("/user/{userId}")
-    public Iterable<Order> getOrdersByUserId(@PathVariable Long userId) {
-        return orderService.getOrdersByUserId(userId);
+    public ResponseEntity<List<Order>> getOrdersByUserId(@PathVariable Long userId) {
+        List<Order> orders = (List<Order>) orderService.getOrdersByUserId(userId);
+        return ResponseEntity.ok(orders);
     }
 
-    // Status einer Bestellung aktualisieren**
-    @PutMapping("/{id}/status")
-    public Order updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
-        return orderService.updateOrderStatus(id, status);
+    // Bestellung aktualisieren
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
+        Order order = orderService.updateOrder(id, updatedOrder);
+        return ResponseEntity.ok(order);
+    }
+
+    // Bestellstatus aktualisieren
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
+        Order order = orderService.updateOrderStatus(id, status);
+        return ResponseEntity.ok(order);
+    }
+
+    // Bestellung löschen
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
     }
 }
